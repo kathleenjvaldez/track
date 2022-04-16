@@ -1,10 +1,11 @@
-import { React, useState } from "react";
+import { React } from "react";
 import styled from "styled-components";
 import { ReactComponent as Chevron } from "./assets/icons/chevron.svg";
 import Card from "./Card.js";
 
 const MainPage = styled.div`
   font-family: canada-type-gibson, proxima-nova, sans-serif;
+  flex-grow: 2;
 
   h1 {
     font-size: 1.5rem;
@@ -29,7 +30,7 @@ const MainPage = styled.div`
   }
 
   .income {
-    width: 40%;
+    width: 50%;
     background-color: #fff;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%);
     padding: 2rem;
@@ -39,7 +40,6 @@ const MainPage = styled.div`
 
   .paychecks {
     display: flex;
-    /* flex-wrap: nowrap; */
     padding: 1rem 0;
     transition: ease-in-out 0.2s;
 
@@ -91,6 +91,8 @@ function Main() {
       <Card name="Income" button="Add Income" label="Received" />
       <Card name="Housing" button="Add Item" label="Remaining" />
       <Card name="Savings" button="Add Item" label="Remaining" />
+      <Card name="" button="Add Item" label="Remaining" />
+      <button>+ ADD GROUP</button>
     </MainPage>
   );
 }

@@ -1,5 +1,6 @@
-import { React, useState } from "react";
+import { React, useState, useContext } from "react";
 import styled from "styled-components";
+import { CategoryContext } from "./App";
 import { ReactComponent as TrashIcon } from "./assets/icons/trash.svg";
 
 const CardDiv = styled.div`
@@ -28,7 +29,6 @@ const CardDiv = styled.div`
   }
 
   .section {
-    width: 40%;
     background-color: #fff;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%);
     padding: 2rem;
@@ -49,6 +49,7 @@ const CardDiv = styled.div`
 
   title:focus {
     color: #0091d9;
+    flex-grow: 1;
   }
 
   button {
@@ -67,11 +68,11 @@ const CardDiv = styled.div`
     margin-left: -0.3125rem;
     border: 1px solid transparent;
     border-radius: 0.25rem;
-    padding: 0.25rem;
     font-size: 1em;
     font-weight: 300;
     font-family: inherit;
     text-align: center;
+    min-width: 0;
   }
 
   .trash {
@@ -85,30 +86,30 @@ const CardDiv = styled.div`
 function Card(props) {
   const [counter, setCounter] = useState(1);
 
-  const [fields, setFields] = useState([
-    { id: 0, title: "Label", amount1: 0, amount2: 0 },
+  const [categories, setCategories] = useState([
+    { id: counter, title: "Label", amount1: 0, amount2: 0 },
   ]);
 
   function handleChange(e, i) {
     const { name, value } = e.target;
     console.log("Name: ", name);
-    const list = [...fields];
+    const list = [...categories];
     list[i][name] = value;
-    setFields(list);
+    setCategories(list);
   }
 
   function handleAdd() {
-    setFields([
-      ...fields,
+    setCategories([
+      ...categories,
       { id: counter, title: "Label", amount1: 0, amount2: 0 },
     ]);
     setCounter(counter + 1);
   }
 
   function handleRemove(index) {
-    const list = [...fields];
+    const list = [...categories];
     list.splice(index, 1);
-    setFields(list);
+    setCategories(list);
   }
 
   return (
@@ -123,28 +124,31 @@ function Card(props) {
           <div className="received basis-1/3">{props.label}</div>
         </div>
 
-        {fields.map((field, i) => {
+        {categories.map((category, i) => {
           return (
-            <div className="paychecks" key={field.id}>
+            <div className="paychecks" key={category.id}>
               <div className="trash">
-                <TrashIcon onClick={(event) => handleRemove(i)} />
+                <TrashIcon
+                  className="trashcan"
+                  onClick={(event) => handleRemove(i)}
+                />
               </div>
               <input
                 name="title"
-                defaultValue={field.title}
+                defaultValue={category.title}
                 onChange={(e) => handleChange(e, i)}
                 className="title bg-white hover:bg-slate-100"
               ></input>
               <input
                 className="amount1"
                 name="amount1"
-                defaultValue={"$" + field.amount1}
+                defaultValue={"$" + category.amount1}
                 onChange={(e) => handleChange(e, i)}
                 className="bg-white hover:bg-slate-100"
               ></input>
               <input
                 name="amount2"
-                defaultValue={"$" + field.amount2}
+                defaultValue={"$" + category.amount2}
                 onChange={(e) => handleChange(e, i)}
                 className="bg-white hover:bg-slate-100"
               ></input>
